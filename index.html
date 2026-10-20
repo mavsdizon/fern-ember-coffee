@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fern & Ember Coffee | Portland</title>
+  <meta name="description" content="Fern & Ember is a neighborhood coffee shop in Portland with specialty coffee, fresh pastries, fast Wi-Fi and plenty of seats for studying and working.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #1f3d2f;
+      --green-soft: #2f5a45;
+      --beige: #f3ece0;
+      --beige-dark: #e6dac6;
+      --cream: #fbf8f3;
+      --text: #22261f;
+      --muted: #6b6a62;
+      --line: #e3dccf;
+      --radius: 14px;
+      --max: 1100px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--cream);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+    h1, h2, h3 { font-family: "Manrope", sans-serif; line-height: 1.15; color: var(--green); }
+    .container { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+    section { padding: 88px 0; }
+    .eyebrow {
+      display: inline-block; font-size: .78rem; font-weight: 600; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--green-soft); margin-bottom: 12px;
+    }
+    .section-head { max-width: 560px; margin-bottom: 48px; }
+    .section-head h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 12px; }
+    .section-head p { color: var(--muted); }
+
+    /* Buttons */
+    .btn {
+      display: inline-block; padding: 14px 28px; border-radius: 999px; font-weight: 600;
+      text-decoration: none; transition: transform .15s ease, background .15s ease;
+    }
+    .btn-primary { background: var(--green); color: #fff; }
+    .btn-primary:hover { background: var(--green-soft); transform: translateY(-1px); }
+    .btn-ghost { border: 1.5px solid var(--green); color: var(--green); }
+    .btn-ghost:hover { background: var(--green); color: #fff; }
+
+    /* Header */
+    header {
+      position: sticky; top: 0; z-index: 50; background: rgba(251, 248, 243, .92);
+      backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .logo { font-family: "Manrope", sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--green); text-decoration: none; }
+    .logo span { color: #b07d4f; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { text-decoration: none; font-size: .95rem; font-weight: 500; color: var(--text); }
+    .nav-links a:hover { color: var(--green-soft); }
+    .menu-toggle { display: none; background: none; border: 0; cursor: pointer; padding: 8px; }
+    .menu-toggle span { display: block; width: 22px; height: 2px; background: var(--green); margin: 5px 0; transition: .2s; }
+
+    /* Hero */
+    .hero { padding: 64px 0 88px; }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; }
+    .hero h1 { font-size: clamp(2.3rem, 6vw, 3.8rem); margin-bottom: 20px; letter-spacing: -.02em; }
+    .hero p { font-size: 1.1rem; color: var(--muted); max-width: 470px; margin-bottom: 32px; }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero-img { border-radius: 24px; overflow: hidden; aspect-ratio: 4 / 5; background: var(--beige-dark); }
+    .hero-perks { display: flex; gap: 28px; margin-top: 40px; flex-wrap: wrap; }
+    .hero-perks div { font-size: .9rem; color: var(--muted); }
+    .hero-perks strong { display: block; font-family: "Manrope", sans-serif; font-size: 1.15rem; color: var(--green); }
+
+    /* Menu */
+    .menu { background: var(--beige); }
+    .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .menu-item { background: #fff; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); }
+    /* Picture frames: an inline illustration sits underneath; the Unsplash photo loads on top when available */
+    .pic { position: relative; overflow: hidden; background: var(--beige-dark); }
+    .pic > svg, .pic > img { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .pic > img { object-fit: cover; }
+    .menu-item .pic { aspect-ratio: 4 / 3; }
+    .menu-body { padding: 20px 22px 24px; }
+    .menu-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 6px; }
+    .menu-top h3 { font-size: 1.1rem; }
+    .price { font-weight: 600; color: var(--green-soft); white-space: nowrap; }
+    .menu-body p { font-size: .93rem; color: var(--muted); }
+    .menu-note { margin-top: 32px; font-size: .9rem; color: var(--muted); text-align: center; }
+
+    /* About */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .about-img { border-radius: 24px; overflow: hidden; aspect-ratio: 1 / 1; background: var(--beige-dark); }
+    .about-text h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 20px; }
+    .about-text p { color: var(--muted); margin-bottom: 16px; }
+    .values { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+    .value { padding: 16px 18px; background: var(--beige); border-radius: 12px; font-size: .92rem; }
+    .value strong { display: block; color: var(--green); margin-bottom: 2px; }
+
+    /* Hours + Location */
+    .visit { background: var(--green); color: #e9efe9; }
+    .visit h2, .visit h3 { color: #fff; }
+    .visit .eyebrow { color: #c9b896; }
+    .visit .section-head p { color: #b9c7bd; }
+    .visit-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 32px; }
+    .hours-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius); padding: 32px; }
+    .hours-card h3 { font-size: 1.2rem; margin-bottom: 20px; }
+    .hours-list { list-style: none; }
+    .hours-list li { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.1); font-size: .97rem; }
+    .hours-list li:last-child { border-bottom: 0; }
+    .hours-list .today { color: #fff; font-weight: 600; }
+    .hours-tip { margin-top: 18px; font-size: .88rem; color: #b9c7bd; }
+    .map-card { border-radius: var(--radius); overflow: hidden; background: #fff; color: var(--text); display: flex; flex-direction: column; }
+    .map-placeholder {
+      flex: 1; min-height: 260px; position: relative;
+      background:
+        linear-gradient(90deg, transparent 49%, #e4ddd0 49%, #e4ddd0 51%, transparent 51%) 0 0 / 80px 80px,
+        linear-gradient(0deg, transparent 49%, #e4ddd0 49%, #e4ddd0 51%, transparent 51%) 0 0 / 80px 80px,
+        var(--beige);
+      display: grid; place-items: center;
+    }
+    .pin {
+      background: var(--green); color: #fff; padding: 10px 16px; border-radius: 999px; font-size: .88rem;
+      font-weight: 600; box-shadow: 0 8px 20px rgba(31,61,47,.25);
+    }
+    .map-info { padding: 22px 26px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .map-info p { font-size: .95rem; }
+    .map-info small { color: var(--muted); }
+
+    /* Contact */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 56px; }
+    .contact-list { list-style: none; margin-top: 8px; }
+    .contact-list li { padding: 16px 0; border-bottom: 1px solid var(--line); }
+    .contact-list span { display: block; font-size: .8rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+    .contact-list a { text-decoration: none; font-weight: 500; font-size: 1.05rem; }
+    .contact-list a:hover { color: var(--green-soft); }
+    form { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; display: grid; gap: 16px; }
+    label { font-size: .88rem; font-weight: 500; display: grid; gap: 6px; }
+    input, textarea {
+      font: inherit; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px;
+      background: var(--cream); color: var(--text);
+    }
+    input:focus, textarea:focus { outline: 2px solid var(--green-soft); outline-offset: 1px; border-color: transparent; }
+    textarea { min-height: 120px; resize: vertical; }
+    form .btn { border: 0; cursor: pointer; font-size: 1rem; justify-self: start; }
+    .form-msg { font-size: .9rem; color: var(--green-soft); display: none; }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--line); padding: 32px 0; font-size: .88rem; color: var(--muted); }
+    .footer-row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .footer-row nav { display: flex; gap: 20px; }
+    .footer-row a { text-decoration: none; }
+    .footer-row a:hover { color: var(--green); }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .menu-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-grid, .about-grid, .visit-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .hero-img { aspect-ratio: 4 / 3; order: -1; }
+      .about-img { aspect-ratio: 16 / 10; }
+    }
+    @media (max-width: 720px) {
+      section { padding: 64px 0; }
+      .hero { padding: 24px 0 64px; }
+      .menu-toggle { display: block; }
+      .nav-links {
+        position: absolute; top: 68px; left: 0; right: 0; flex-direction: column; gap: 0;
+        background: var(--cream); border-bottom: 1px solid var(--line);
+        max-height: 0; overflow: hidden; transition: max-height .25s ease;
+      }
+      .nav-links.open { max-height: 360px; }
+      .nav-links a { display: block; padding: 14px 20px; }
+      .menu-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .menu-toggle.open span:nth-child(2) { opacity: 0; }
+      .menu-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    }
+    @media (max-width: 560px) {
+      .menu-grid, .values { grid-template-columns: 1fr; }
+      .hours-card, form { padding: 24px; }
+      .hero-actions .btn { flex: 1; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav">
+      <a href="#top" class="logo">Fern <span>&amp;</span> Ember</a>
+      <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#visit">Hours</a></li>
+        <li><a href="#visit">Location</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Specialty coffee · Portland</span>
+          <h1>Good coffee, quiet corners, and room to get things done.</h1>
+          <p>Fern &amp; Ember is a neighborhood café for early lectures, late deadlines and everything in between. Fresh-roasted espresso, honest pastries and Wi-Fi that actually works.</p>
+          <div class="hero-actions">
+            <a href="#visit" class="btn btn-primary">Visit Us</a>
+            <a href="#menu" class="btn btn-ghost">See the Menu</a>
+          </div>
+          <div class="hero-perks">
+            <div><strong>40+</strong>seats &amp; outlets</div>
+            <div><strong>Free</strong>fast Wi-Fi</div>
+            <div><strong>10%</strong>off with student ID</div>
+          </div>
+        </div>
+        <div class="hero-img pic">
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of a bright café interior">
+            <rect width="400" height="500" fill="#f3ece0"/>
+            <rect y="330" width="400" height="170" fill="#d9c7a8"/>
+            <rect y="330" width="400" height="6" fill="#c4ae8a"/>
+            <!-- window -->
+            <rect x="40" y="60" width="200" height="220" rx="100" fill="#cfe0d2"/>
+            <rect x="40" y="60" width="200" height="220" rx="100" fill="none" stroke="#1f3d2f" stroke-width="8"/>
+            <line x1="140" y1="62" x2="140" y2="278" stroke="#1f3d2f" stroke-width="6"/>
+            <line x1="44" y1="190" x2="236" y2="190" stroke="#1f3d2f" stroke-width="6"/>
+            <circle cx="90" cy="250" r="30" fill="#7fa58a"/><circle cx="190" cy="255" r="26" fill="#6c957a"/>
+            <circle cx="120" cy="262" r="20" fill="#8db497"/>
+            <!-- shelf -->
+            <rect x="275" y="120" width="105" height="8" rx="3" fill="#8a6440"/>
+            <rect x="285" y="88" width="22" height="32" rx="4" fill="#fbf8f3" stroke="#c4ae8a" stroke-width="2"/>
+            <rect x="315" y="96" width="18" height="24" rx="4" fill="#b07d4f"/>
+            <path d="M350 120 q-6 -30 8 -38 q8 18 -2 38z" fill="#2f5a45"/>
+            <path d="M358 120 q10 -26 22 -28 q-2 20 -18 28z" fill="#4f7a62"/>
+            <rect x="275" y="190" width="105" height="8" rx="3" fill="#8a6440"/>
+            <rect x="288" y="160" width="26" height="30" rx="6" fill="#e6dac6" stroke="#c4ae8a" stroke-width="2"/>
+            <rect x="322" y="164" width="26" height="26" rx="6" fill="#1f3d2f"/>
+            <!-- pendant lamps -->
+            <line x1="110" y1="0" x2="110" y2="34" stroke="#22261f" stroke-width="2"/>
+            <path d="M92 50 q18 -26 36 0z" fill="#1f3d2f"/><circle cx="110" cy="52" r="4" fill="#f5d38a"/>
+            <line x1="310" y1="0" x2="310" y2="50" stroke="#22261f" stroke-width="2"/>
+            <path d="M292 66 q18 -26 36 0z" fill="#b07d4f"/><circle cx="310" cy="68" r="4" fill="#f5d38a"/>
+            <!-- table + stools -->
+            <ellipse cx="140" cy="372" rx="90" ry="14" fill="#8a6440"/>
+            <rect x="134" y="374" width="12" height="90" fill="#5c432c"/>
+            <ellipse cx="140" cy="466" rx="40" ry="7" fill="#5c432c"/>
+            <rect x="100" y="344" width="22" height="26" rx="4" fill="#fbf8f3"/><path d="M122 350 q10 2 0 12" stroke="#fbf8f3" stroke-width="4" fill="none"/>
+            <rect x="156" y="352" width="44" height="18" rx="3" fill="#2f5a45"/>
+            <!-- chair -->
+            <rect x="250" y="360" width="70" height="10" rx="4" fill="#1f3d2f"/>
+            <rect x="300" y="290" width="10" height="80" rx="4" fill="#1f3d2f"/>
+            <rect x="256" y="370" width="8" height="90" fill="#1f3d2f"/><rect x="306" y="370" width="8" height="90" fill="#1f3d2f"/>
+            <!-- floor plant -->
+            <path d="M350 410 h40 l-6 60 h-28z" fill="#b07d4f"/>
+            <path d="M370 410 q-40 -40 -20 -100 q20 50 20 100z" fill="#2f5a45"/>
+            <path d="M370 410 q30 -50 26 -110 q-22 52 -26 110z" fill="#4f7a62"/>
+            <path d="M370 410 q-10 -70 4 -120 q12 60 -4 120z" fill="#6c957a"/>
+          </svg>
+          <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1000&q=80&auto=format&fit=crop" alt="Bright café interior with wooden tables and plants" onerror="this.remove()">
+        </div>
+      </div>
+    </section>
+
+    <!-- Menu -->
+    <section class="menu" id="menu">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Our menu</span>
+          <h2>Small menu, done properly.</h2>
+          <p>We roast our beans in small batches every week and bake pastries fresh each morning. Oat, almond and soy milk at no extra charge.</p>
+        </div>
+        <div class="menu-grid">
+          <article class="menu-item">
+            <div class="pic">
+              <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of a cappuccino from above">
+                <rect width="400" height="300" fill="#e9dcc6"/>
+                <circle cx="210" cy="155" r="118" fill="#d8c7aa"/>
+                <circle cx="200" cy="150" r="112" fill="#fbf8f3"/>
+                <rect x="292" y="136" width="54" height="28" rx="14" fill="#f3ece0"/>
+                <circle cx="200" cy="150" r="82" fill="#f3ece0"/>
+                <circle cx="200" cy="150" r="68" fill="#7a4a2c"/>
+                <circle cx="200" cy="150" r="56" fill="#c99a6b"/>
+                <path d="M200 186 C160 160 164 120 188 122 C196 123 200 132 200 138 C200 132 204 123 212 122 C236 120 240 160 200 186z" fill="#f6ead6"/>
+                <rect x="70" y="210" width="10" height="70" rx="5" transform="rotate(-30 75 245)" fill="#c4ae8a"/>
+              </svg>
+              <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=800&q=80&auto=format&fit=crop" alt="Cappuccino with latte art" loading="lazy" onerror="this.remove()">
+            </div>
+            <div class="menu-body">
+              <div class="menu-top"><h3>Classic Cappuccino</h3><span class="price">$4.50</span></div>
+              <p>Double shot of our house espresso with silky steamed milk and a light layer of foam.</p>
+            </div>
+          </article>
+          <article class="menu-item">
+            <div class="pic">
+              <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of a cold brew in a tall glass">
+                <rect width="400" height="300" fill="#dfe7df"/>
+                <rect y="240" width="400" height="60" fill="#c9d6ca"/>
+                <rect x="232" y="20" width="10" height="120" rx="5" transform="rotate(12 237 80)" fill="#2f5a45"/>
+                <path d="M150 60 h100 l-12 190 h-76z" fill="#ffffff" opacity=".55"/>
+                <path d="M156 100 h88 l-9 145 h-70z" fill="#3b2418"/>
+                <path d="M156 100 h88 l-2 22 h-84z" fill="#6b4329"/>
+                <rect x="170" y="112" width="26" height="26" rx="5" fill="#ffffff" opacity=".5" transform="rotate(-12 183 125)"/>
+                <rect x="204" y="128" width="24" height="24" rx="5" fill="#ffffff" opacity=".45" transform="rotate(14 216 140)"/>
+                <rect x="180" y="150" width="22" height="22" rx="5" fill="#ffffff" opacity=".35" transform="rotate(8 191 161)"/>
+                <path d="M150 60 h100 l-12 190 h-76z" fill="none" stroke="#ffffff" stroke-width="4"/>
+                <ellipse cx="200" cy="252" rx="60" ry="6" fill="#b4c4b6"/>
+                <circle cx="110" cy="230" r="14" fill="#b07d4f"/><circle cx="132" cy="236" r="10" fill="#8a6440"/>
+              </svg>
+              <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&q=80&auto=format&fit=crop" alt="Iced coffee in a tall glass" loading="lazy" onerror="this.remove()">
+            </div>
+            <div class="menu-body">
+              <div class="menu-top"><h3>Cold Brew</h3><span class="price">$4.75</span></div>
+              <p>Steeped for 18 hours for a smooth, chocolatey finish. Strong enough for finals week.</p>
+            </div>
+          </article>
+          <article class="menu-item">
+            <div class="pic">
+              <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of a honey oat latte with a honey dipper">
+                <rect width="400" height="300" fill="#efe2cc"/>
+                <rect y="226" width="400" height="74" fill="#e0ceb0"/>
+                <ellipse cx="190" cy="232" rx="98" ry="14" fill="#cdb894"/>
+                <path d="M120 110 h140 v86 a40 40 0 0 1 -40 40 h-60 a40 40 0 0 1 -40 -40z" fill="#1f3d2f"/>
+                <path d="M260 132 a30 30 0 0 1 0 60" fill="none" stroke="#1f3d2f" stroke-width="14"/>
+                <ellipse cx="190" cy="110" rx="70" ry="14" fill="#2f5a45"/>
+                <ellipse cx="190" cy="112" rx="62" ry="10" fill="#e8c99b"/>
+                <path d="M168 92 q8 -14 0 -26 M190 88 q8 -16 0 -30 M212 92 q8 -14 0 -26" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round" opacity=".8"/>
+                <!-- honey dipper -->
+                <rect x="300" y="150" width="70" height="8" rx="4" transform="rotate(-25 335 154)" fill="#8a6440"/>
+                <g transform="rotate(-25 305 190)">
+                  <rect x="282" y="176" width="46" height="30" rx="8" fill="#d39a3b"/>
+                  <rect x="286" y="182" width="38" height="4" fill="#b07a25"/><rect x="286" y="192" width="38" height="4" fill="#b07a25"/>
+                </g>
+                <path d="M300 214 q0 12 -2 18" stroke="#e1a94a" stroke-width="5" stroke-linecap="round"/>
+              </svg>
+              <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=800&q=80&auto=format&fit=crop" alt="Latte with heart-shaped latte art" loading="lazy" onerror="this.remove()">
+            </div>
+            <div class="menu-body">
+              <div class="menu-top"><h3>Honey Oat Latte</h3><span class="price">$5.25</span></div>
+              <p>Our most-ordered drink: espresso, oat milk, local wildflower honey and a pinch of cinnamon.</p>
+            </div>
+          </article>
+          <article class="menu-item">
+            <div class="pic">
+              <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of a butter croissant on a plate">
+                <rect width="400" height="300" fill="#f1e4cf"/>
+                <ellipse cx="200" cy="175" rx="150" ry="70" fill="#d8c7aa"/>
+                <ellipse cx="200" cy="168" rx="144" ry="64" fill="#fbf8f3"/>
+                <g stroke="#9c6428" stroke-width="3">
+                  <path d="M90 170 q-6 -30 30 -40 q14 30 6 56 q-26 8 -36 -16z" fill="#c98a43"/>
+                  <path d="M310 170 q6 -30 -30 -40 q-14 30 -6 56 q26 8 36 -16z" fill="#c98a43"/>
+                  <path d="M116 136 q30 -24 52 -18 q10 36 -4 76 q-30 4 -42 -12 q-12 -26 -6 -46z" fill="#d9a05a"/>
+                  <path d="M284 136 q-30 -24 -52 -18 q-10 36 4 76 q30 4 42 -12 q12 -26 6 -46z" fill="#d9a05a"/>
+                  <path d="M166 116 q34 -14 68 0 q12 40 -2 84 q-32 10 -64 0 q-14 -44 -2 -84z" fill="#e3b26c"/>
+                </g>
+                <path d="M184 130 q16 -6 32 0 M180 152 q20 -6 40 0 M184 174 q16 -5 32 0" stroke="#b77a35" stroke-width="3" fill="none"/>
+              </svg>
+              <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&q=80&auto=format&fit=crop" alt="Fresh croissants on a tray" loading="lazy" onerror="this.remove()">
+            </div>
+            <div class="menu-body">
+              <div class="menu-top"><h3>Butter Croissant</h3><span class="price">$3.75</span></div>
+              <p>Flaky, golden and baked in-house every morning. Usually gone by noon.</p>
+            </div>
+          </article>
+          <article class="menu-item">
+            <div class="pic">
+              <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of avocado toast with a soft-boiled egg">
+                <rect width="400" height="300" fill="#e3ead9"/>
+                <circle cx="200" cy="155" r="126" fill="#cdd8c2"/>
+                <circle cx="200" cy="150" r="120" fill="#fbf8f3"/>
+                <rect x="104" y="80" width="192" height="140" rx="34" fill="#b5803f"/>
+                <rect x="114" y="90" width="172" height="120" rx="28" fill="#e2b877"/>
+                <path d="M124 120 q20 -24 46 -8 q24 -20 48 0 q26 -18 52 4 q10 30 -4 56 q-20 22 -48 12 q-26 18 -52 0 q-28 10 -42 -16 q-12 -26 0 -48z" fill="#9dbb5e"/>
+                <path d="M140 128 q16 -10 30 0 M196 120 q16 -10 30 0 M150 168 q16 -10 30 0 M220 160 q16 -10 30 0" stroke="#7d9c42" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <circle cx="232" cy="146" r="30" fill="#ffffff"/>
+                <circle cx="234" cy="148" r="15" fill="#f2a82e"/>
+                <circle cx="150" cy="150" r="3" fill="#c0392b"/><circle cx="182" cy="182" r="3" fill="#c0392b"/><circle cx="270" cy="182" r="3" fill="#c0392b"/><circle cx="204" cy="110" r="3" fill="#c0392b"/>
+                <path d="M300 230 q20 -6 30 6 q-14 12 -30 -6z" fill="#f5e27a"/>
+              </svg>
+              <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&q=80&auto=format&fit=crop" alt="Avocado toast with egg" loading="lazy" onerror="this.remove()">
+            </div>
+            <div class="menu-body">
+              <div class="menu-top"><h3>Avocado Toast</h3><span class="price">$9.50</span></div>
+              <p>Sourdough, smashed avocado, chili flakes, lemon and a soft-boiled egg. Add feta for $1.</p>
+            </div>
+          </article>
+          <article class="menu-item">
+            <div class="pic">
+              <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of a matcha bowl with a bamboo whisk">
+                <rect width="400" height="300" fill="#e4ecdf"/>
+                <rect x="40" y="40" width="320" height="220" rx="20" fill="#d6e1cf"/>
+                <circle cx="170" cy="150" r="92" fill="#3d4a3f"/>
+                <circle cx="170" cy="150" r="80" fill="#e9e4d8"/>
+                <circle cx="170" cy="150" r="70" fill="#7fa548"/>
+                <circle cx="170" cy="150" r="56" fill="#9cc15f"/>
+                <path d="M134 150 q18 -20 36 0 t36 0 M140 128 q15 -14 30 0 t30 0 M144 172 q13 -12 26 0 t26 0" stroke="#bcd88a" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <!-- whisk -->
+                <rect x="280" y="70" width="22" height="70" rx="8" fill="#c9a06a"/>
+                <path d="M276 140 h30 l14 80 q-29 18 -58 0z" fill="#e7cf9f"/>
+                <path d="M282 146 l-8 72 M291 146 l0 76 M300 146 l8 72" stroke="#c9a06a" stroke-width="3"/>
+              </svg>
+              <img src="https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=800&q=80&auto=format&fit=crop" alt="Matcha latte in a ceramic cup" loading="lazy" onerror="this.remove()">
+            </div>
+            <div class="menu-body">
+              <div class="menu-top"><h3>Ceremonial Matcha</h3><span class="price">$5.50</span></div>
+              <p>Stone-ground Japanese matcha whisked to order, served hot or over ice.</p>
+            </div>
+          </article>
+        </div>
+        <p class="menu-note">Show your student ID for 10% off any order, every day.</p>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <div class="container about-grid">
+        <div class="about-img pic">
+          <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of a barista making pour-over coffee">
+            <rect width="400" height="400" fill="#1f3d2f"/>
+            <circle cx="300" cy="90" r="120" fill="#2f5a45"/>
+            <rect y="300" width="400" height="100" fill="#8a6440"/>
+            <rect y="300" width="400" height="8" fill="#a07a52"/>
+            <!-- kettle -->
+            <path d="M60 120 h90 a10 10 0 0 1 10 10 v60 a10 10 0 0 1 -10 10 h-90 a10 10 0 0 1 -10 -10 v-60 a10 10 0 0 1 10 -10z" fill="#e6dac6"/>
+            <path d="M50 140 q-24 6 -20 40" stroke="#e6dac6" stroke-width="10" fill="none" stroke-linecap="round"/>
+            <rect x="90" y="106" width="30" height="16" rx="6" fill="#c4ae8a"/>
+            <path d="M160 180 q40 -6 66 -40 l8 6 q-26 40 -70 46z" fill="#e6dac6"/>
+            <!-- pour stream -->
+            <path d="M232 146 q8 40 6 86" stroke="#c99a6b" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <!-- dripper -->
+            <path d="M190 220 h90 l-24 50 h-42z" fill="#fbf8f3"/>
+            <ellipse cx="235" cy="222" rx="45" ry="7" fill="#f3ece0"/>
+            <ellipse cx="235" cy="224" rx="36" ry="4" fill="#6b4329"/>
+            <rect x="196" y="270" width="78" height="8" rx="3" fill="#fbf8f3"/>
+            <!-- cup / carafe -->
+            <path d="M206 278 h58 l-6 34 a10 10 0 0 1 -10 8 h-26 a10 10 0 0 1 -10 -8z" fill="#ffffff" opacity=".7"/>
+            <path d="M210 296 h50 l-3 16 a8 8 0 0 1 -8 6 h-28 a8 8 0 0 1 -8 -6z" fill="#3b2418"/>
+            <!-- beans -->
+            <g fill="#5c432c">
+              <ellipse cx="320" cy="330" rx="10" ry="7" transform="rotate(20 320 330)"/>
+              <ellipse cx="342" cy="342" rx="10" ry="7" transform="rotate(-30 342 342)"/>
+              <ellipse cx="314" cy="352" rx="10" ry="7" transform="rotate(60 314 352)"/>
+              <ellipse cx="80" cy="345" rx="10" ry="7" transform="rotate(-10 80 345)"/>
+            </g>
+            <g stroke="#3b2418" stroke-width="2"><path d="M314 326 q6 4 12 8 M336 346 q6 -4 12 -8 M310 346 q4 6 8 12"/></g>
+            <!-- steam -->
+            <path d="M226 200 q-8 -12 0 -24 M246 204 q-8 -12 0 -24" stroke="#e6dac6" stroke-width="3" fill="none" stroke-linecap="round" opacity=".6"/>
+          </svg>
+          <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=1000&q=80&auto=format&fit=crop" alt="Barista pouring coffee" loading="lazy" onerror="this.remove()">
+        </div>
+        <div class="about-text">
+          <span class="eyebrow">About us</span>
+          <h2>Started by two former night-shift students.</h2>
+          <p>Maya and Daniel met studying for exams in a café that closed at 6 pm. They spent the next three years wishing for a place with good coffee, real tables and enough outlets for everyone. In 2021 they opened it themselves.</p>
+          <p>Today Fern &amp; Ember is where study groups meet, freelancers set up for the day and neighbors stop by for a quick flat white. Stay for ten minutes or six hours — nobody will rush you.</p>
+          <div class="values">
+            <div class="value"><strong>Roasted weekly</strong>Beans sourced directly from small farms.</div>
+            <div class="value"><strong>Work-friendly</strong>Outlets at every table, quiet zone upstairs.</div>
+            <div class="value"><strong>Zero rush</strong>No time limits, ever.</div>
+            <div class="value"><strong>Less waste</strong>Bring a cup and get 50¢ off.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hours + Location -->
+    <section class="visit" id="visit">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Visit us</span>
+          <h2>Open early, open late.</h2>
+          <p>Five minutes' walk from campus and right next to the Hawthorne bus stop.</p>
+        </div>
+        <div class="visit-grid">
+          <div class="hours-card">
+            <h3>Opening hours</h3>
+            <ul class="hours-list" id="hours">
+              <li data-day="1"><span>Monday</span><span>7:00 am – 9:00 pm</span></li>
+              <li data-day="2"><span>Tuesday</span><span>7:00 am – 9:00 pm</span></li>
+              <li data-day="3"><span>Wednesday</span><span>7:00 am – 9:00 pm</span></li>
+              <li data-day="4"><span>Thursday</span><span>7:00 am – 10:00 pm</span></li>
+              <li data-day="5"><span>Friday</span><span>7:00 am – 10:00 pm</span></li>
+              <li data-day="6"><span>Saturday</span><span>8:00 am – 8:00 pm</span></li>
+              <li data-day="0"><span>Sunday</span><span>8:00 am – 6:00 pm</span></li>
+            </ul>
+            <p class="hours-tip">Extended hours until midnight during exam weeks.</p>
+          </div>
+          <div class="map-card">
+            <!-- Replace this block with a Google Maps embed iframe -->
+            <div class="map-placeholder">
+              <div class="pin">📍 Fern &amp; Ember Coffee</div>
+            </div>
+            <div class="map-info">
+              <div>
+                <p><strong>1428 SE Hawthorne Blvd</strong></p>
+                <small>Portland, OR 97214</small>
+              </div>
+              <a href="https://maps.google.com/?q=1428+SE+Hawthorne+Blvd+Portland+OR" target="_blank" rel="noopener" class="btn btn-primary">Get Directions</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="container contact-grid">
+        <div>
+          <div class="section-head" style="margin-bottom: 24px;">
+            <span class="eyebrow">Contact</span>
+            <h2>Say hello.</h2>
+            <p>Booking a table for a study group, planning a small event, or just have a question? We usually reply within a day.</p>
+          </div>
+          <ul class="contact-list">
+            <li><span>Phone</span><a href="tel:+15035550142">(503) 555-0142</a></li>
+            <li><span>Email</span><a href="mailto:hello@fernandember.coffee">hello@fernandember.coffee</a></li>
+            <li><span>Instagram</span><a href="#">@fernandember</a></li>
+          </ul>
+        </div>
+        <form id="contact-form">
+          <label>Your name
+            <input type="text" name="name" placeholder="Alex Rivera" required>
+          </label>
+          <label>Email
+            <input type="email" name="email" placeholder="alex@example.com" required>
+          </label>
+          <label>Message
+            <textarea name="message" placeholder="Hi! We'd like to reserve the upstairs table for 6 people next Thursday afternoon." required></textarea>
+          </label>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+          <p class="form-msg" id="form-msg">Thanks! We'll get back to you soon.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <span>© 2026 Fern &amp; Ember Coffee · Portland, OR</span>
+      <nav>
+        <a href="#menu">Menu</a>
+        <a href="#visit">Visit</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu
+    const toggle = document.querySelector('.menu-toggle');
+    const links = document.querySelector('.nav-links');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open);
+    });
+    links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      links.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', false);
+    }));
+
+    // Highlight today's opening hours
+    const today = new Date().getDay();
+    const row = document.querySelector(`#hours li[data-day="${today}"]`);
+    if (row) row.classList.add('today');
+
+    // Demo form handler (connect to a real service like Formspree to receive messages)
+    document.getElementById('contact-form').addEventListener('submit', e => {
+      e.preventDefault();
+      document.getElementById('form-msg').style.display = 'block';
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
